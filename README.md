@@ -1,6 +1,6 @@
 # 🌊 FishMasters - Plateforme Digitale de Pêche Sportive
 
-![FishMasters Banner](https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80)
+![FishMasters Banner](https://fancywork-ua.com/sites/default/files/acquia/store/products/KHO2240_1.jpg)
 
 ## 📌 Présentation du Projet
 **FishMasters** est la plateforme officielle de la **Fédération Marocaine de Pêche Sportive**. Sa mission est de digitaliser et de promouvoir les compétitions de pêche au Maroc (Mer et Eau douce), offrant une expérience immersive pour les fans, un outil de gestion précis pour les pêcheurs, et une console d'administration robuste pour les organisateurs.
