@@ -82,7 +82,7 @@ Pour configurer le projet localement, suivez les étapes ci-dessous :
 ### 1. Cloner le dépôt
 
 ```bash
-git clone [https://github.com/fadiinsaf/FishMasters.git](https://github.com/fadiinsaf/FishMasters.git)
+git clone https://github.com/fadiinsaf/FishMasters.git
 cd fishmasters
 
 ```
