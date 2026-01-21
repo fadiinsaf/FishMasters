@@ -1,4 +1,5 @@
 <?php
+namespace config;
 define('DB_TYPE', 'psql');
 define('DB_HOST', 'www.dockhosting.com');
 define('DB_USER', 'admin');
