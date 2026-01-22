@@ -35,8 +35,8 @@ public function setTypePecheFavris($typePecheFavoris){
 public function __tostring(){
     return "club :". $this->club . ", region :" . $this->region . ", typePecheFavorisn:" . $this->typePecheFavoris ;
 }
-public function getAllPecheurs() {
-    $sql = "SELECT * FROM pecheurs ORDER BY nom ASC";
+public function getAllFisherMen() {
+    $sql = "SELECT * FROM fishermen ORDER BY nom ASC";
     $stmt = $this->db->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
