@@ -27,3 +27,8 @@ CREATE TABLE category (
     name_category VARCHAR(100),
     environment env_type
 );
+CREATE TABLE team (
+    id_team SERIAL PRIMARY KEY,
+    name VARCHAR(100) UNIQUE,
+    logo_url VARCHAR(255)
+);
