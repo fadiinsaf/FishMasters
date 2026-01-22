@@ -76,3 +76,12 @@ CREATE TABLE followed (
 
     CONSTRAINT unique_follow UNIQUE(fan_id, id_target, type_table)
 );
+CREATE TABLE liked (
+    id SERIAL PRIMARY KEY,
+    fan_id INTEGER REFERENCES fan(id_user) ON DELETE CASCADE,
+    id_target INTEGER NOT NULL,
+    type_table target_type_like NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT unique_like UNIQUE(fan_id, id_target, type_table)
+);
