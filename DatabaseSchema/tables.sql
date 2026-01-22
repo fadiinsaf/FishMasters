@@ -108,3 +108,11 @@ CREATE TABLE inscription (
     -- Si ce champ est NULL, le pêcheur participe en INDIVIDUEL.
     -- S'il est rempli, il participe pour cette ÉQUIPE.
 
+CREATE TABLE prise_comment (
+    id_comment SERIAL PRIMARY KEY,
+    fan_id INTEGER REFERENCES fan(id_user),
+    id_prise INTEGER  REFERENCES prise(id_prise),
+    content_com TEXT NOT NULL,
+    is_approved BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
