@@ -85,3 +85,10 @@ CREATE TABLE liked (
 
     CONSTRAINT unique_like UNIQUE(fan_id, id_target, type_table)
 );
+CREATE TABLE team_member (
+    id_team INTEGER REFERENCES team(id_team) ON DELETE CASCADE,
+    id_fisherman INTEGER REFERENCES fisherman(id_user) ON DELETE CASCADE,
+    role_in_team VARCHAR(50) DEFAULT 'membre', -- ex: 'capitaine', 'membre'
+    joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id_team, id_fisherman) -- Un pêcheur ne peut pas être deux fois dans la même équipe
+);
