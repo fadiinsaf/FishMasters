@@ -21,3 +21,9 @@ CREATE TABLE fisherman (
     region VARCHAR(100),
     type_peche VARCHAR(155)
 ) INHERITS (app_user);
+
+CREATE TABLE category (
+    id_category SERIAL PRIMARY KEY,
+    name_category VARCHAR(100),
+    environment env_type
+);
