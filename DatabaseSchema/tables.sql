@@ -32,3 +32,17 @@ CREATE TABLE team (
     name VARCHAR(100) UNIQUE,
     logo_url VARCHAR(255)
 );
+
+CREATE TABLE competition (
+    id_competition SERIAL PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    date_debut TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_fin TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    capacite_max INTEGER,
+    lieux_competition VARCHAR(200),
+    description_comp VARCHAR(700),
+    status_competion competition_status NOT NULL,
+    category_id INTEGER REFERENCES category(id_category),
+    date_start TIMESTAMP,
+    location VARCHAR(200)
+);
