@@ -116,3 +116,15 @@ CREATE TABLE prise_comment (
     is_approved BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+CREATE TABLE notification (
+    id_notification SERIAL PRIMARY KEY,
+    fan_id INTEGER REFERENCES fan(id_user) ON DELETE CASCADE,
+    title VARCHAR(150) NOT NULL, 
+    message TEXT NOT NULL,       
+    
+    id_target INTEGER,           
+    type_target target_type_follow,     -- 'prise', 'competition', 'fisherman'
+    
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
