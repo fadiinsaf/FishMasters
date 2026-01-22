@@ -6,7 +6,7 @@ use app\Core\FollowableCompetition;
 use Datetime;
 use config\Database;
 
-class Competition extends Likable
+class Competition
 {
     private int $id_competition;
     private string $titre;
@@ -48,66 +48,4 @@ class Competition extends Likable
     {
         $this->$name = $value;
     }
-
-    public function createCompetition(): ?int
-    {
-        $pdo = Database::getInstance()->getConnection();
-        $sql = 'INSERT INTO Competition(titre, date_debut, date_fin, lieux_competition, description, type_competition, status, capacite_max, id_categorie)
-                VALUES (?,?,?,?,?,?,?,?,?,?)';
-        $stmt = $pdo->prepare($sql);
-        return $stmt->execute([
-            $this->titre,
-            $this->date_debut,
-            $this->date_fin,
-            $this->lieux_competition,
-            $this->description,
-            $this->type_competition,
-            $this->status,
-            $this->capacite_max,
-            $this->id_categorie
-        ]) ? $pdo->lastInsertId() : null;
-    }
-    public function likeCompetition(int $id_competition, int $id_fan) {
-        $pdo = Database::getInstance()->getConnection();
-
-    }
-    public function dislikeCompetition(int $id_competition, int $id_fan) {
-        $pdo = Database::getInstance()->getConnection();
-    }
-    public function updateCompetition(Competition $c, int $id_competition): bool
-    {
-        $pdo = Database::getInstance()->getConnection();
-        $sql = 'UPDATE Competition
-                SET titre = ?, 
-                    date_debut = ?,
-                    date_fin = ?,
-                    lieux_competition = ?,
-                    description = ?,
-                    type_competition = ?,
-                    status = ?,
-                    capacite_max = ?,
-                    id_categorie = ?
-                WHERE id_competition = ?';
-        $stmt = $pdo->prepare($sql);
-        return $stmt->execute([
-            $c->titre,
-            $c->date_debut,
-            $c->date_fin,
-            $c->lieux_competition,
-            $c->description,
-            $c->type_competition,
-            $c->status,
-            $c->capacite_max,
-            $c->id_competition
-        ]) ? true : false;
-    }
-
-    public function deleteCompetition(int $id_competition): bool
-    {
-        $pdo = Database::getInstance()->getConnection();
-        $sql = 'DELETE FROM Competition WHERE id_competition = ?';
-        $stmt = $pdo->prepare($sql);
-        return $stmt->execute([$id_competition]) ? true : false;
-    }
-    use FollowableCompetition;
 }
