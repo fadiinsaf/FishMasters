@@ -52,3 +52,27 @@ CREATE TABLE espece (
     min_size FLOAT,
     coefficient FLOAT DEFAULT 1.0
 );
+ALTER TABLE fisherman ADD PRIMARY KEY (id_user);
+ALTER TABLE admin ADD PRIMARY KEY (id_user);
+ALTER TABLE fan ADD PRIMARY KEY (id_user);
+
+CREATE TABLE prise (
+    id_prise SERIAL PRIMARY KEY,
+    fisherman_id INTEGER REFERENCES fisherman(id_user), -- Note: Référence logique vers fisherman
+    competition_id INTEGER REFERENCES competition(id_competition),
+    espece_id INTEGER REFERENCES espece(id_espece),
+    poids FLOAT,
+    taille FLOAT,
+    date_prise TIMESTAMP,
+    status_valid prise_status NOT NULL,
+    photo VARCHAR(100)
+);
+CREATE TABLE followed (
+    id_followed SERIAL PRIMARY KEY,
+    fan_id INTEGER REFERENCES fan(id_user), 
+    id_target INTEGER NOT NULL, 
+    type_table target_type_follow NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT unique_follow UNIQUE(fan_id, id_target, type_table)
+);
