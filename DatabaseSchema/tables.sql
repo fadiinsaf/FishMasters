@@ -128,3 +128,20 @@ CREATE TABLE notification (
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE scoreDTO (
+    id_score SERIAL PRIMARY KEY,
+    competition_id INTEGER REFERENCES competition(id_competition) ON DELETE CASCADE,
+    fisherman_id INTEGER REFERENCES fisherman(id_user) ON DELETE CASCADE,
+    team_id INTEGER REFERENCES team(id_team), 
+    
+    total_points FLOAT DEFAULT 0,
+    total_weight FLOAT DEFAULT 0,
+    fish_count INTEGER DEFAULT 0,
+    biggest_catch FLOAT DEFAULT 0,
+    rank_individual INTEGER,
+    rank_team INTEGER, 
+    
+    CONSTRAINT unique_score UNIQUE(competition_id, fisherman_id)
+);
+
