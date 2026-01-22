@@ -85,6 +85,7 @@ CREATE TABLE liked (
 
     CONSTRAINT unique_like UNIQUE(fan_id, id_target, type_table)
 );
+
 CREATE TABLE team_member (
     id_team INTEGER REFERENCES team(id_team) ON DELETE CASCADE,
     id_fisherman INTEGER REFERENCES fisherman(id_user) ON DELETE CASCADE,
@@ -92,3 +93,18 @@ CREATE TABLE team_member (
     joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id_team, id_fisherman) -- Un pêcheur ne peut pas être deux fois dans la même équipe
 );
+
+CREATE TABLE inscription (
+    id_inscription SERIAL PRIMARY KEY,
+    competition_id INTEGER REFERENCES competition(id_competition) ON DELETE CASCADE,
+    fisherman_id INTEGER REFERENCES fisherman(id_user) ON DELETE CASCADE,
+    
+    
+    team_id INTEGER REFERENCES team(id_team) ON DELETE SET NULL DEFAULT NULL,
+    
+    date_inscription TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unique_inscription UNIQUE(competition_id, fisherman_id)
+);
+    -- Si ce champ est NULL, le pêcheur participe en INDIVIDUEL.
+    -- S'il est rempli, il participe pour cette ÉQUIPE.
+
