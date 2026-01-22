@@ -46,3 +46,9 @@ CREATE TABLE competition (
     date_start TIMESTAMP,
     location VARCHAR(200)
 );
+CREATE TABLE espece (
+    id_espece SERIAL PRIMARY KEY,
+    name_espece VARCHAR(100),
+    min_size FLOAT,
+    coefficient FLOAT DEFAULT 1.0
+);
