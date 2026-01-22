@@ -8,3 +8,16 @@ CREATE TABLE app_user (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
 );
+CREATE TABLE admin (
+) INHERITS (app_user);
+
+CREATE TABLE fan (
+    loyalty_points INTEGER DEFAULT 0
+) INHERITS (app_user);
+
+
+CREATE TABLE fisherman (
+    club VARCHAR(100),
+    region VARCHAR(100),
+    type_peche VARCHAR(155)
+) INHERITS (app_user);
