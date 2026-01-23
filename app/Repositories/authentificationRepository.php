@@ -13,17 +13,8 @@ class AuthentificationRepository
         $this->pdo = Database::getInstance()->getConnection();
     }
 
-    public function findByEmail(string $email): ?object
+    public function findByEmail(string $email): ?User 
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM app_user WHERE email = ?");
-        $stmt->execute([$email]);
-
-        $user = $stmt->fetch(PDO::FETCH_OBJ);
-
-        return $user ?: null;
-    }
-
-    public function findByEmail(string $email): ?User {
         $stmt = $this->pdo->prepare("SELECT * FROM app_user WHERE email = :email");
         $stmt->execute(['email' => $email]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -42,6 +33,27 @@ class AuthentificationRepository
         }
 
         return new User($data['id_user'], $data['email'], $data['password_hash'], $data['role']);
+    }
+
+    public function saveFisherman(Fisherman $fisherman): bool 
+    {
+        $sql = "INSERT INTO fisherman (email, password_hash, role, club, region, type_peche) 
+                VALUES (:email, :pass, :role, :club, :region, :type)";
+        
+        $stmt = $this->pdo->prepare($sql);
+        $success = $stmt->execute([
+            'email'  => $fisherman->getEmail(),
+            'pass'   => $fisherman->getPasswordHash(),
+            'role'   => $fisherman->getRole(),
+            'club'   => $fisherman->getClub(),
+            'region' => $fisherman->getRegion(), 
+            'type'   => 'Général'
+        ]);
+
+        if ($success) {
+            $fisherman->setId((int)$this->pdo->lastInsertId());
+        }
+        return $success;
     }
 }
 ?>
