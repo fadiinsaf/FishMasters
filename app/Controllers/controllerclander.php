@@ -13,6 +13,6 @@ class CalendarController {
         $competitions = $model->getCalendrier();
 
         
-        require 'views/calendar.php';
+        require '../views/competitionclander.php';
     }
 }

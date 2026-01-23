@@ -48,4 +48,12 @@ class Competition
     {
         $this->$name = $value;
     }
+
+    public function getCalendrier() {
+        $sql = "SELECT * FROM competitions WHERE date_debut >= CURRENT_DATE ORDER BY date_debut ASC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }
