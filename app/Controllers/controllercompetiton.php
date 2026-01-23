@@ -1,7 +1,6 @@
  <?php
-// استيراد الموديل (تأكد من صحة المسار)
-require_once '../models/score.php';
-
+ require_once '../Models/score.php';
+ require_once '../Modles/competition.php';
 class PodiumController {
     private $db;
 
@@ -10,12 +9,12 @@ class PodiumController {
     }
 
     
-    public function show($competitionId) {
+    public function show($id_competition) {
         $rankingModel = new Ranking($this->db);
 
-         $topThree = $rankingModel->getTopThree($competitionId);
+         $topThree = $rankingModel->getTopThree($id_competition);
 
-         $allfisher = $rankingModel->getAllRankings($competitionId);
+         $allfisher = $rankingModel->getAllRankings($id_competition);
 
          if (!$topThree) {
             die("Aucun résultat trouvé pour cette compétition");
@@ -33,5 +32,17 @@ class PodiumController {
         $rankings = $model->getRankingsByCategory($category);
         
         require '../views/test.php';
+    }
+
+    public function list() {
+        $model = new Competition($this->db);
+
+         $milieu = $_GET['milieu'] ?? '';
+        $region = $_GET['region'] ?? '';
+        $categorie = $_GET['categorie'] ?? '';
+
+         $competitions = $model->getFilteredCompetitions($milieu, $region, $categorie);
+
+         require '../views/competition.php';
     }
 }
