@@ -4,8 +4,5 @@
             "APP\\" : "app/",
             "CONFIG\\" : "config/"
         }
-    },
-  "require": {
-    "ext-pdo": "*"
-  }
+    }
 }
