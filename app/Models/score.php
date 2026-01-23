@@ -1,5 +1,6 @@
 <?php
-
+namespace app\Models;
+ use config\Database;
 class Score {
      private int $id_score;
     private float $totalPoints;

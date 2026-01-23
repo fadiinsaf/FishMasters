@@ -1,6 +1,6 @@
 <?php
-
-
+namespace app\Models;
+use config\Database;
 class fishermen
 {
 private $club ; 
