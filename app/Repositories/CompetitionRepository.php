@@ -3,7 +3,7 @@
 namespace App\Repositories;
 use app\Core;
 use app\Core\FollowableCompetition;
-use App\Models\Competition;
+use APP\Models\Competition;
 use config\Database;
 use PDO;
 
@@ -21,7 +21,7 @@ class CompetitionRepository
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    public function getById(int $id): ?array
+    public function getById(int $id): ?Competition
     {
 
         $sql = 'SELECT * FROM competition WHERE id_competition = :id';
@@ -63,11 +63,10 @@ class CompetitionRepository
     }
     public function updateCompetition(Competition $c, int $id_competition): bool
     {
-
         $sql = 'UPDATE Competiion
                 SET titre = ?, 
                     date_debut = ?,
-                    date_fin = ?,&
+                    date_fin = ?,
                     lieux_competition = ?,
                     description = ?,
                     type_competition = ?,
