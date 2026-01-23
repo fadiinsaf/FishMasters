@@ -1,5 +1,5 @@
 <?php
-require_once 'models/Competition.php';
+require_once '../models/Competition.php';
 
 class CalendarController {
     private $db;
