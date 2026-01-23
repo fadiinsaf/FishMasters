@@ -14,7 +14,10 @@ class Prise
     private float $taille;
     private string $photo;
     private datetime $date_prise;
-    private $status_valid;
+    private string $status_valid;
+    private int $fisherman_id;
+    private int $competition_id;
+    private int $espece_id;
 
 
     // public function getPoids() {}
@@ -23,14 +26,25 @@ class Prise
     // public function getHeure() {}
     // public function getStqtut() {}
 
-    
-    public function __construct($poids, $taille, $photo, $date_prise, $status_valid = 'en attende')
 
-    {
+    public function __construct(
+        float $poids,
+        float $taille,
+        string $photo,
+        datetime $date_prise,
+        int $fisherman_id,
+        int $competition_id,
+        int $espece_id,
+        string $status_valid = 'en attente'
+    ) {
         $this->poids = $poids;
         $this->taille = $taille;
         $this->photo = $photo;
         $this->date_prise = $date_prise;
+        $this->fisherman_id = $fisherman_id;
+        $this->competition_id = $competition_id;
+        $this->espece_id = $espece_id;
+        $this->status_valid = $status_valid;
     }
 
     public function __get($property)
