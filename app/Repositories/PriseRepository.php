@@ -1,7 +1,11 @@
 <?php
-namespace app\Models;
+
+namespace app\Repositories;
+
 use app\Models\Prise;
 use config\Database;
+use DateTime;
+use PDO;
 
 class PriseRepository
 {
@@ -11,6 +15,8 @@ class PriseRepository
     {
         $this->conn = Database::getInstance()->getConnexion();
     }
+
+
 
     public function createPrise(Prise $prise)
     {
@@ -30,12 +36,67 @@ class PriseRepository
         return $this->conn->lastInsertId(); // preferance to return the ID of the new catch
     }
 
+
+
+    public function findByPriseId($id)
+    {
+        $query = "SELECT * from prise where id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute([$id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $date = new DateTime($row["date_prise"]);
+        $prise = new Prise(
+            (float) $row['poids'],
+            (float) $row['taille'],
+            (string) $row['photo'],
+            $date,
+            (int) $row['fisherman_id'],
+            (int) $row['competition_id'],
+            (int) $row['espece_id'],
+            (string) $row['status_valid']
+        );
+        $prise->id = $row["id_prise"];
+        return $prise;
+    }
+
+    public function getAllPrise()
+    {
+        $sql = "SELECT * from prise ";
+        $stmt = $this->conn->query($sql);
+        $prises = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $date = new DateTime($row['date_prise']);
+
+            $newPrise = new Prise(
+                (float) $row['poids'],
+                (float) $row['taille'],
+                (string) $row['photo'],
+                $date,
+                (int) $row['fisherman_id'],
+                (int) $row['competition_id'],
+                (int) $row['espece_id'],
+                (string) $row['status_valid']
+            );
+            $newPrise->id = $row["id_prise"];
+
+            $prises[] = $newPrise;
+        }
+
+        return $prises;
+    }
+
+
+
     public function validatePriseStatus($id)
     {
         $sql = "UPDATE prise set status_valid = 'approuve' where id = ? ";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$id]);
     }
+
+
+
     public function rejectPriseStatus($id)
     {
         $sql = "UPDATE prise set status_valid = 'rejete' where id = ? ";
