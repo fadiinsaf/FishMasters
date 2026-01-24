@@ -1,5 +1,6 @@
 <?php
-
+namespace app\Models;
+ use config\Database;
 class Score {
      private int $id_score;
     private float $totalPoints;
@@ -107,6 +108,16 @@ class Score {
         $stmt->execute(['cat' => $categorie]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getRankingsByCategory($category) {
+    
+    $sql = "SELECT * FROM fishermen 
+            WHERE category = :category 
+            ORDER BY score_total DESC";
+    
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute(['category' => $category]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 }
 
 ?>

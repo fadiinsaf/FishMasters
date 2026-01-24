@@ -48,4 +48,36 @@ class Competition
     {
         $this->$name = $value;
     }
+
+    public function getCalendrier() {
+        $sql = "SELECT * FROM competitions WHERE date_debut >= CURRENT_DATE ORDER BY date_debut ASC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+}
+    public function getFilteredCompetitions($milieu, $region, $categorie) {
+        $sql = "SELECT * FROM competitions WHERE 1=1";
+        $params = [];
+
+        if (!empty($milieu)) {
+            $sql .= " AND milieu = :milieu";
+            $params['milieu'] = $milieu;
+        }
+        if (!empty($region)) {
+            $sql .= " AND region = :region";
+            $params['region'] = $region;
+        }
+        if (!empty($categorie)) {
+            $sql .= " AND categorie = :categorie";
+            $params['categorie'] = $categorie;
+        }
+
+        $sql .= " ORDER BY date_debut DESC";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

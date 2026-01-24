@@ -38,7 +38,7 @@ class PriseRepository
 
 
 
-    public function findByPriseId($id)
+    public function findByPriseId(int $id): Prise
     {
         $query = "SELECT * from prise where id = ?";
         $stmt = $this->conn->prepare($query);
@@ -59,9 +59,9 @@ class PriseRepository
         return $prise;
     }
 
-    public function getAllPrise()
+    public function getAllPrise(): array
     {
-        $sql = "SELECT * from prise ";
+        $sql = "SELECT * from prise order by id_prise";
         $stmt = $this->conn->query($sql);
         $prises = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -84,6 +84,59 @@ class PriseRepository
         }
 
         return $prises;
+    }
+
+
+    public function getPrisesByFisherman(int $fisherId): array
+    {
+        $sql = "SELECT * from prise where fisherman_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$fisherId]);
+        $prises = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $date = new DateTime($row['date_prise']);
+            $prise = new Prise(
+                (float) $row['poids'],
+                (float) $row['taille'],
+                (string) $row['photo'],
+                $date,
+                (int) $row['fisherman_id'],
+                (int) $row['competition_id'],
+                (int) $row['espece_id'],
+                (string) $row['status_valid']
+            );
+            $prise->id = $row['id_prise'];
+
+            $prises[] = $prise;
+        }
+        return $prises;
+    }
+
+
+
+    public function getPrisesByCompetition(int $competitionId): array
+    {
+        $sql = "SELECT * from prise where competition_id = ? and status_valid = 'approuve' ";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$competitionId]);
+        $prises = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $date = new DateTime($row['date_prise']);
+            $prise = new Prise(
+                (float) $row['poids'],
+                (float) $row['taille'],
+                (string) $row['photo'],
+                $date,
+                (int) $row['fisherman_id'],
+                (int) $row['competition_id'],
+                (int) $row['espece_id'],
+                (string) $row['status_valid']
+            );
+            $prise->id = $row['id_prise'];
+            $prises[] = $prise ;
+        }
+
+        return $prises ;
     }
 
 

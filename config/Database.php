@@ -5,6 +5,7 @@ class Database
 {
     private static ?Database $instance = null;
     private PDO $conn;
+
     private function __construct()
     {
         $this->conn = new PDO(DB_TYPE, DB_USER, DB_PASS);
@@ -27,3 +28,4 @@ class Database
     {
     }
 }
+

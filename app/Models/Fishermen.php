@@ -1,7 +1,7 @@
 <?php
-
-
-class fishermen
+namespace app\Models;
+use config\Database;
+class fishermen extends user
 {
 private $club ; 
 private $region ;
