@@ -6,11 +6,11 @@ use APP\Models\authentification;
 use config\Database;
 use PDO;
 
-class AuthentificationRepository 
+class AuthRepository
 {
     private PDO $pdo;
     public function __construct($pdo){
-        $this->pdo = Database::getInstance()->getConnection();
+        $this->pdo = $pdo;
     }
 
     public function findByEmail(string $email): ?User 
