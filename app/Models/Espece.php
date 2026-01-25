@@ -20,11 +20,19 @@ class Espece
 
     public function __get($name)
     {
-        return $this->$name;
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        }
+        // 
+        throw new \Exception("Property '$name' does not exist in class ");
     }
 
     public function __set($name, $value)
     {
-        $this->$name = $value;
+        if (property_exists($this, $name)) {
+            $this->$name = $value;
+        } else {
+            throw new \Exception("Property '$name' does not exist in class ");
+        }
     }
 }
