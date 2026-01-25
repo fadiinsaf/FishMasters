@@ -4,11 +4,14 @@ namespace app\Repositories;
 
 use APP\Models\Espece;
 use config\Database;
+use PDO;
+
 
 class EspeceRepository
 {
     private $pdo;
-    public function __construct(){
+    public function __construct()
+    {
         $this->pdo = Database::getInstance()->getConnection();
     }
     public function createEspece(Espece $e): ?int
@@ -16,10 +19,11 @@ class EspeceRepository
         $sql = 'INSERT INTO espece(name_espece, min_size, coefficient)
                 VALUES (?, ?, ?)';
         $stmt = $this->pdo->prepare($sql);
-        return $stmt->execute([$e->name_espece,
+        return $stmt->execute([
+            $e->name_espece,
             $e->min_size,
             $e->coefficient
-        ]) ? $this->pdo->lastInsertedId() : null;
+        ]) ? $this->pdo->lastInsertId() : null;
     }
 
     public function updateEspece(Espece $e, int $id_espece): void
@@ -38,10 +42,26 @@ class EspeceRepository
             $id_espece
         ]);
     }
-    public function deleteEspece(int $id_espece): void {
+    public function deleteEspece(int $id_espece): void
+    {
         $pdo = Database::getInstance()->getConnection();
         $sql = 'DELETE FROM espece WHERE id_espece = ?';
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id_espece]);
+    }
+
+    public function findById($id)
+    {
+        $sql = "SELECT * from espece where id_espece = ? ";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $espece = new Espece(
+            (string) $row["name_espece"],
+            (float) $row["min_size"],
+            (float) $row["coefficient"]
+        );
+        $espece->id_espece = $row["id_espece"];
+        return $espece;
     }
 }

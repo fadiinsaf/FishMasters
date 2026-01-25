@@ -1,7 +1,8 @@
 <?php
-namespace Entity;
+namespace app\Models;
+use config\Database;
 
-class App_user 
+class User 
 {
     public function __construct(
         protected ?int $id_user = null,

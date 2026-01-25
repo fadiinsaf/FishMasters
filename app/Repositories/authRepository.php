@@ -2,15 +2,18 @@
 
 namespace App\Repositories;
 use app\Core;
-use APP\Models\authentification;
+use app\Models\authentification;
+use app\Models\Fishermen;
+use app\Models\Fan;
+use app\Models\User;
 use config\Database;
 use PDO;
 
-class AuthentificationRepository 
+class AuthRepository
 {
     private PDO $pdo;
     public function __construct($pdo){
-        $this->pdo = Database::getInstance()->getConnection();
+        $this->pdo = $pdo;
     }
 
     public function findByEmail(string $email): ?User 
@@ -23,7 +26,7 @@ class AuthentificationRepository
 
         if ($data['role']==='fishermen'){
             $stmt = $this->pdo->prepare("SELECT * FROM fisherman WHERE id_user = :id");
-            $stmt->execute ('id'=>$data['is-user']);
+            $stmt->execute (['id'=>$data['id_user']]);
             $dataF = $stmt->fetch(PDO::FETCH_ASSOC);
         
             return new Fishermen(
@@ -35,7 +38,7 @@ class AuthentificationRepository
         return new User($data['id_user'], $data['email'], $data['password_hash'], $data['role']);
     }
 
-    public function saveFisherman(Fisherman $fisherman): bool 
+    public function saveFisherman(Fishermen $fisherman): bool 
     {
         $sql = "INSERT INTO fisherman (email, password_hash, role, club, region, type_peche) 
                 VALUES (:email, :pass, :role, :club, :region, :type)";
@@ -54,6 +57,17 @@ class AuthentificationRepository
             $fisherman->setId((int)$this->pdo->lastInsertId());
         }
         return $success;
+    }
+    
+    public function saveFan(Fan $fan): bool {
+        $sql = "INSERT INTO fan (email, password_hash, role, loyalty_points) 
+                VALUES (:email, :pass, 'fan', :points)";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            'email' => $fan->getEmail(),
+            'pass'  => $fan->getPasswordHash(),
+            'points'=> $fan->getLoyaltyPoints()
+        ]);
     }
 }
 ?>

@@ -1,12 +1,38 @@
 <?php
 
 namespace app\Models;
-use Datetime;
 use config\Database;
+use app\Models\User;
+use app\Models\Fishermen;
+use app\Models\Fan;
+use App\Repositories\authRepository;
 
-class autehtification
-{
-    $ private
+class authentification {
+
+    private AuthRepository $userRepo;
+
+    public function __construct(AuthRepository $userRepo) {
+        $this->userRepo = $userRepo;
+    }
+
+    public function registerFisherman(Fishermen $fisher): bool {
+        if ($this->userRepo->findByEmail($fisher->getEmail())) return false;
+        return $this->userRepo->saveFisherman($fisher);
+    }
+    
+    public function registerFan(Fan $fan): bool {
+        if ($this->userRepo->findByEmail($fan->getEmail())) return false;
+        return $this->userRepo->saveFan($fan);
+    }
+
+    public function login(string $email, string $password): ?User {
+        $user = $this->userRepo->findByEmail($email);
+
+        if ($user && password_verify($password, $user->getPasswordHash())) {
+            return $user;
+        }
+        return null;
+    }
+
 }
-
 ?>
