@@ -55,5 +55,16 @@ class AuthRepository
         }
         return $success;
     }
+    
+    public function saveFan(Fan $fan): bool {
+        $sql = "INSERT INTO fan (email, password_hash, role, loyalty_points) 
+                VALUES (:email, :pass, 'fan', :points)";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([
+            'email' => $fan->getEmail(),
+            'pass'  => $fan->getPasswordHash(),
+            'points'=> $fan->getLoyaltyPoints()
+        ]);
+    }
 }
 ?>
