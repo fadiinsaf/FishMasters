@@ -2,7 +2,7 @@
 
 namespace app\Repositories;
 
-use APP\Models\Espece;
+use app\Models\Espece;
 use config\Database;
 use PDO;
 
@@ -63,5 +63,24 @@ class EspeceRepository
         );
         $espece->id_espece = $row["id_espece"];
         return $espece;
+    }
+
+    public function findAll(): array
+    {
+        $sql = "SELECT * FROM espece";
+        $stmt = $this->pdo->query($sql);
+
+        $especes = [];
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            // Hydrate logic (reuse what you have in findById)
+            $e = new Espece(
+                (string)$row['name_espece'],
+                (float)$row['min_size'],
+                (float)$row['coefficient'],
+
+            );
+            $especes[] = $e;
+        }
+        return $especes;
     }
 }
