@@ -1,9 +1,7 @@
 <?php
 namespace app\Models;
 use config\Database;
-
-
-class fishermen
+class fishermen extends user
 {
 private $club ; 
 private $region ;
