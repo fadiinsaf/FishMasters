@@ -2,7 +2,10 @@
 
 namespace App\Repositories;
 use app\Core;
-use APP\Models\authentification;
+use app\Models\authentification;
+use app\Models\Fishermen;
+use app\Models\Fan;
+use app\Models\User;
 use config\Database;
 use PDO;
 
@@ -23,7 +26,7 @@ class AuthRepository
 
         if ($data['role']==='fishermen'){
             $stmt = $this->pdo->prepare("SELECT * FROM fisherman WHERE id_user = :id");
-            $stmt->execute ('id'=>$data['is-user']);
+            $stmt->execute (['id'=>$data['id_user']]);
             $dataF = $stmt->fetch(PDO::FETCH_ASSOC);
         
             return new Fishermen(
@@ -35,7 +38,7 @@ class AuthRepository
         return new User($data['id_user'], $data['email'], $data['password_hash'], $data['role']);
     }
 
-    public function saveFisherman(Fisherman $fisherman): bool 
+    public function saveFisherman(Fishermen $fisherman): bool 
     {
         $sql = "INSERT INTO fisherman (email, password_hash, role, club, region, type_peche) 
                 VALUES (:email, :pass, :role, :club, :region, :type)";

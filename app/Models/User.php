@@ -1,5 +1,5 @@
 <?php
-namespace app\MOdels;
+namespace app\Models;
 use config\Database;
 
 class User 
