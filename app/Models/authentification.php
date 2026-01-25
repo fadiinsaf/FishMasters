@@ -14,15 +14,15 @@ class authentification {
         $this->userRepo = $userRepo;
     }
 
-    public function register(Fisherman $fisherman): bool 
-    {
-        if ($this->userRepo->findByEmail($fisherman->getEmail())) {
-            return false; 
-        }
-        
+    public function registerFisherman(Fisherman $fisherman): bool {
+        if ($this->userRepo->findByEmail($fisherman->getEmail())) return false;
         return $this->userRepo->saveFisherman($fisherman);
     }
     
+    public function registerFan(Fan $fan): bool {
+        if ($this->userRepo->findByEmail($fan->getEmail())) return false;
+        return $this->userRepo->saveFan($fan);
+    }
 
     public function login(string $email, string $password): ?User {
         $user = $this->userRepo->findByEmail($email);
@@ -32,5 +32,6 @@ class authentification {
         }
         return null;
     }
+    
 }
 ?>
