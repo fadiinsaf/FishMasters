@@ -1,6 +1,5 @@
 <?php
-namespace app\Core;
-
+namespace app\Models;
 class Session {
     public function __construct() {
         if (session_status() === PHP_SESSION_NONE) {
